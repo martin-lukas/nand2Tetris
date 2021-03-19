@@ -1,0 +1,42 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Xor.hdl
+
+/**
+ * Exclusive-or gate:
+ * out = not (a == b)
+ */
+
+CHIP Xor {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+	// Best possible solution - 4 NAND gates (found out online...)
+	Nand(a=a, b=b, out=nand1);
+	Nand(a=a, b=nand1, out=nand2);
+	Nand(a=nand1, b=b, out=nand3);
+	Nand(a=nand2, b=nand3, out=out);
+
+	// Second solution - 6 NAND gates (my best)
+	//Not(in=a, out=notA);
+	//Not(in=b, out=notB);
+	//Nand(a=a, b=b, out=posNand);
+	//Nand(a=notA, b=notB, out=negNand);
+	//And(a=posNand, b=negNand, out=out);
+
+	// Third solution - 9 NAND gates (canonical form)
+	//Not(in=a, out=notA);
+	//Not(in=b, out=notB);
+	//And(a=a, b=notB, out=aAndNotB);
+	//And(a=notA, b=b, out=notAAndB);
+	//Or(a=aAndNotB, b=notAAndB, out=out);
+
+	// Fourth solution - 10 NAND gates
+	//And(a=a, b=b, out=outAnd);
+	//Or(a=a, b=b, out=outOr);
+	//Not(in=outOr, out=outNor);
+	//Or(a=outAnd, b=outNor, out=outNotXor);
+	//Not(in=outNotXor, out=out);
+}
