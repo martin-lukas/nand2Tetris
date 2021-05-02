@@ -1,0 +1,18 @@
+// This is a grammar for the assembly language for the HACK computer.
+// Whitespace is insignificant except for new line characters.
+// Some parts of the grammar are not recognizable as tokens in the lexer
+//   - mainly dest/comp/part (grouped under COMP_TYPE) - because it's not simple to differentiate immediately
+//     between a symbol and a destination / computation / jump type
+
+program ::= statement+
+statement ::= ( aInstruction | cInstruction | labelDeclaration )? (comment)? nl
+aInstruction ::= @( symbol | number )
+cInstruction ::= ( dest= )?comp( ;jump )?
+labelDeclaration ::= userSymbol:
+symbol ::= ( SP | LCL | ARG | THIS | THAT | R([0-9]|1[0-5]) | SCREEN | KBD | userSymbol )
+userSymbol ::= [A-Za-z_$.:]{[A-Za-z0-9_$.:]}
+dest ::= A?M?D?
+computation ::= ( 0 | -?1 | [!-]?[AMD] | [AMD][+-]1 | D[+-][AM] | [AM]-D | D[&|][AM] )
+jump ::= (JGT|JEQ|JGE|JLT|JNE|JLE|JMP)
+comment ::= // .*
+nl ::= '\n'

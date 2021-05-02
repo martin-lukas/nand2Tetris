@@ -1,5 +1,7 @@
 .idea/
 target/
+*.iml
 *.tst
 *.cmp
 *.out
+*.hack
